@@ -8,6 +8,7 @@ from django.contrib.messages import constants
 # Create your views here.
 
 def nova_empresa(request):
+
     if request.method == "GET":
         techs = Tecnologias.objects.all()  # select * from ...
 
@@ -47,3 +48,14 @@ def nova_empresa(request):
         empresa.save()
         messages.add_message(request, constants.SUCCESS, 'Empresa cadastrada com sucesso')
         return redirect('/home/empresas')
+    
+
+def empresas(request):
+    empresas = Empresa.objects.all()
+    return render(request, 'empresa.html', {'empresas':empresas})
+
+def excluir_empresa(request, id):
+    empresa = Empresa.objects.get(id = id)
+    empresa.delete()
+    messages.add_message(request, constants.SUCCESS, 'Empresa deletada com sucesso')
+    return redirect('/home/empresas')
